@@ -1,0 +1,59 @@
+  # ═══════════════════════════════════════════════════
+  #  GOLF BOT — Configuration
+  #  Edit any value here and restart server.py
+  #  No reflash needed for any of these settings
+  # ═══════════════════════════════════════════════════
+
+  # ── ESP-CAM ─────────────────────────────────────────
+  esp_ip: "192.168.4.1"          # ESP access point IP — never changes
+
+  # ── Model ────────────────────────────────────────────
+  model_path: "models/best.pt"   # path to your trained YOLO model
+  inference_size: 512            # 320=fast, 416=balanced, 640=accurate
+  inference_every: 2              # run YOLO every N frames (1=every frame)
+
+  # ── Detection ────────────────────────────────────────
+  confidence: 0.30               # min confidence to count as detection (0.0-1.0)
+                                  # lower = detects more but more false positives
+                                  # raise if getting false detections
+
+  # ── Tracking zones ───────────────────────────────────
+  # Frame is split into 3 horizontal zones:
+  #   |--- left zone ---|--- centre zone ---|--- right zone ---|
+  #   0.0             0.38               0.62               1.0
+  left_zone:  0.38               # ball left of this → turn left
+  right_zone: 0.62               # ball right of this → turn right
+                                  # narrowing these makes turning more aggressive
+                                  # widening makes the bot go straight more often
+
+  # ── Close / arrived ──────────────────────────────────
+  close_area: 0.08       # ball bounding box area fraction = "arrived"
+                                  # 0.08 = ball fills ~8% of frame
+                                  # increase if bot gets too close before stopping
+  arrived_hold_sec: 2.0          # seconds to stay stopped after arriving
+                                  # increase if bot keeps re-triggering forward
+
+  # ── Smoothing ────────────────────────────────────────
+  smooth_frames: 4               # average ball position over N frames
+                                  # higher = smoother but slower to react
+
+  # ── Speed ────────────────────────────────────────────
+  default_speed: 180             # default motor speed 0-255 on startup
+                                  # 128 = ~50%,  180 = ~70%,  255 = 100%
+
+  # ── Motor command ────────────────────────────────────
+  cmd_debounce_ms: 100           # min ms between repeated motor commands
+                                  # lower = more responsive, higher = less network load
+
+  # Camera / steering correction
+  rotate_180: true               # keep true if the camera image is upside down
+  invert_steering: false         # set true only if left/right tracking is reversed
+
+  # ── Stream ───────────────────────────────────────────
+  stream_quality: 65             # JPEG quality sent to browser (1-95)
+                                  # lower = faster on slow WiFi, less detail
+  stream_timeout_sec: 8          # seconds without a frame before watchdog restarts stream
+
+  # ── Server ───────────────────────────────────────────
+  server_host: "0.0.0.0"        # 0.0.0.0 = accessible from any device on network
+  server_port: 8000              # open browser at http://localhost:8000
